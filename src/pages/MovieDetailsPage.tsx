@@ -74,7 +74,7 @@ export function MovieDetailsPage() {
               <span className="text-sm font-semibold text-slate-600">({compactVotes(movie.voteCount)} votes)</span>
               <button
                 type="button"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-extrabold text-white shadow-lg shadow-blue-500/20 hover:bg-brand-dark"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[linear-gradient(135deg,#075eea_0%,#1677ff_58%,#f5f9ff_145%)] px-5 text-sm font-extrabold text-white shadow-lg shadow-blue-500/20 hover:brightness-95"
               >
                 <Heart size={18} />
                 Add to Favorites

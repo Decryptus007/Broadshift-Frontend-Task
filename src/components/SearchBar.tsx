@@ -55,7 +55,7 @@ export function SearchBar({
       {showFilterButton ? (
         <button
           type="submit"
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-brand px-4 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition hover:bg-brand-dark sm:px-6"
+          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-[linear-gradient(135deg,#075eea_0%,#1677ff_58%,#f5f9ff_145%)] px-4 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition hover:brightness-95 sm:px-6"
         >
           <SlidersHorizontal size={17} />
           <span className="hidden sm:inline">Filters</span>

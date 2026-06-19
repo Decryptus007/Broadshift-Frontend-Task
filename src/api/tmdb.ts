@@ -37,6 +37,7 @@ type TmdbListResponse = {
 
 const apiKey = import.meta.env.VITE_TMDB_API_KEY as string | undefined
 const accessToken = import.meta.env.VITE_TMDB_ACCESS_TOKEN as string | undefined
+const useFallbackMovies = import.meta.env.VITE_USE_FALLBACK_MOVIES === 'true'
 const canUseTmdb = Boolean(apiKey || accessToken)
 
 const tmdb = axios.create({
@@ -82,8 +83,17 @@ const delay = (ms = 250) => new Promise((resolve) => window.setTimeout(resolve, 
 const uniqueMovies = (movies: Movie[]) =>
   Array.from(new Map(movies.map((movie) => [movie.id, movie])).values())
 
+const assertMovieApiConfigured = () => {
+  if (!canUseTmdb && !useFallbackMovies) {
+    throw new Error(
+      'TMDB is not configured. Add VITE_TMDB_API_KEY or VITE_TMDB_ACCESS_TOKEN to .env.',
+    )
+  }
+}
+
 export const movieApi = {
   async getGenres(): Promise<Genre[]> {
+    assertMovieApiConfigured()
     if (!canUseTmdb) return fallbackGenres
 
     const response = await tmdb.get<{ genres: Genre[] }>('/genre/movie/list')
@@ -91,6 +101,7 @@ export const movieApi = {
   },
 
   async getHomeCollections(): Promise<MovieCollection> {
+    assertMovieApiConfigured()
     if (!canUseTmdb) {
       await delay()
       return {
@@ -117,6 +128,7 @@ export const movieApi = {
   },
 
   async searchMovies(filters: SearchFilters): Promise<Movie[]> {
+    assertMovieApiConfigured()
     if (!canUseTmdb) {
       await delay()
       const query = filters.query.trim().toLowerCase()
@@ -163,6 +175,7 @@ export const movieApi = {
   async getMovieDetails(movieId: string): Promise<MovieDetails> {
     const fallback = fallbackMovies.find((movie) => movie.id.toString() === movieId)
 
+    assertMovieApiConfigured()
     if (!canUseTmdb) {
       await delay()
       if (!fallback) throw new Error('Movie not found')
@@ -176,6 +189,7 @@ export const movieApi = {
   },
 
   async getSimilarMovies(movieId: string): Promise<Movie[]> {
+    assertMovieApiConfigured()
     if (!canUseTmdb) {
       await delay()
       return fallbackMovies.filter((movie) => movie.id.toString() !== movieId).slice(0, 6)
