@@ -9,6 +9,9 @@ const navItems = [
   { label: 'Upcoming', icon: Calendar, to: '/search?year=2024' },
 ]
 
+const activeNavClass =
+  'bg-[linear-gradient(135deg,#075eea_0%,#1677ff_58%,#f5f9ff_145%)] !text-white shadow-lg shadow-blue-500/20 [&_*]:!text-white'
+
 export function AppLayout() {
   const navigate = useNavigate()
 
@@ -33,9 +36,7 @@ export function AppLayout() {
                 className={({ isActive }) =>
                   [
                     'flex min-w-max items-center gap-3 rounded-md px-3 py-3 text-sm font-semibold transition lg:min-w-0 lg:px-4',
-                    isActive
-                      ? '!text-white bg-[linear-gradient(135deg,#075eea_0%,#1677ff_58%,#f5f9ff_145%)] shadow-lg shadow-blue-500/20 [&_svg]:text-white'
-                      : 'text-slate-700 hover:bg-blue-50 hover:text-brand',
+                    isActive ? activeNavClass : 'text-slate-700 hover:bg-blue-50 hover:text-brand',
                   ].join(' ')
                 }
               >
