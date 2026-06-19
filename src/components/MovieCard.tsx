@@ -13,7 +13,7 @@ export function MovieCard({ movie, compact = false }: MovieCardProps) {
     <Link
       to={`/movie/${movie.id}`}
       className={[
-        'group block min-w-0 rounded-md outline-none focus-visible:ring-4 focus-visible:ring-blue-100',
+        'group block min-w-0 shrink-0 rounded-md outline-none focus-visible:ring-4 focus-visible:ring-blue-100',
         compact ? 'w-[138px] sm:w-[154px]' : 'w-[126px] sm:w-[144px] xl:w-[158px]',
       ].join(' ')}
     >

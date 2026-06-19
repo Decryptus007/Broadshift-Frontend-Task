@@ -15,7 +15,7 @@ export function AppLayout() {
   return (
     <div className="min-h-screen px-3 py-3 text-ink sm:px-5 lg:px-6">
       <div className="mx-auto grid max-w-[1480px] gap-4 lg:grid-cols-[184px_minmax(0,1fr)]">
-        <aside className="rounded-lg border border-line bg-panel shadow-panel lg:min-h-[calc(100vh-1.5rem)]">
+        <aside className="min-w-0 rounded-lg border border-line bg-panel shadow-panel lg:min-h-[calc(100vh-1.5rem)]">
           <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-4 lg:block lg:border-b-0 lg:px-5 lg:py-7">
             <NavLink to="/" className="flex items-center gap-3">
               <span className="grid h-9 w-9 place-items-center rounded-md bg-brand text-white shadow-lg shadow-blue-500/20">
