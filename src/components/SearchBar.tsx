@@ -1,5 +1,5 @@
 import { SlidersHorizontal, Search, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 
 type SearchBarProps = {
@@ -7,6 +7,7 @@ type SearchBarProps = {
   defaultValue?: string
   onChange?: (value: string) => void
   onSubmit?: (value: string) => void
+  onFilterClick?: () => void
   showFilterButton?: boolean
 }
 
@@ -15,13 +16,24 @@ export function SearchBar({
   defaultValue = '',
   onChange,
   onSubmit,
+  onFilterClick,
   showFilterButton = true,
 }: SearchBarProps) {
   const [value, setValue] = useState(defaultValue)
+  const hasSearchValue = value.trim().length > 0
+
+  useEffect(() => {
+    setValue(defaultValue)
+  }, [defaultValue])
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    onSubmit?.(value.trim())
+    if (hasSearchValue) {
+      onSubmit?.(value.trim())
+      return
+    }
+
+    onFilterClick?.()
   }
 
   const handleChange = (nextValue: string) => {
@@ -57,8 +69,8 @@ export function SearchBar({
           type="submit"
           className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-[linear-gradient(135deg,#075eea_0%,#1677ff_58%,#f5f9ff_145%)] px-4 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition hover:brightness-95 sm:px-6"
         >
-          <SlidersHorizontal size={17} />
-          <span className="hidden sm:inline">Filters</span>
+          {hasSearchValue ? <Search size={17} /> : <SlidersHorizontal size={17} />}
+          <span className="hidden sm:inline">{hasSearchValue ? 'Search' : 'Filters'}</span>
         </button>
       ) : null}
     </form>

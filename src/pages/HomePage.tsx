@@ -30,8 +30,8 @@ export function HomePage() {
       </header>
 
       <MovieSection title="Now Playing" movies={data.nowPlaying.slice(0, 6)} />
-      <MovieSection title="Popular Movies" movies={data.popular.slice(0, 6)} viewAllTo="/search" />
-      <MovieSection title="Top Rated" movies={data.topRated.slice(0, 6)} viewAllTo="/search?sort=rating" />
+      <MovieSection title="Popular Movies" movies={data.popular.slice(0, 6)} viewAllTo="/popular" />
+      <MovieSection title="Top Rated" movies={data.topRated.slice(0, 6)} viewAllTo="/top-rated" />
     </div>
   )
 }

@@ -2,9 +2,7 @@ import { SlidersHorizontal } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { MovieCard } from '../components/MovieCard'
-import { SearchBar } from '../components/SearchBar'
 import { EmptyState, ErrorState, LoadingGrid } from '../components/StateViews'
-import { useDebounce } from '../hooks/useDebounce'
 import { useGenres, useSearchMovies } from '../hooks/useMovies'
 import type { SearchFilters } from '../types/movie'
 
@@ -18,8 +16,6 @@ const ratings = [
 
 export function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get('q') ?? '')
-  const debouncedQuery = useDebounce(query)
   const { data: genres = [] } = useGenres()
 
   const [filters, setFilters] = useState<SearchFilters>({
@@ -31,8 +27,14 @@ export function SearchPage() {
   })
 
   useEffect(() => {
-    setFilters((current) => ({ ...current, query: debouncedQuery }))
-  }, [debouncedQuery])
+    setFilters({
+      query: searchParams.get('q') ?? '',
+      genre: searchParams.get('genre') ?? '',
+      year: searchParams.get('year') ?? '',
+      rating: searchParams.get('rating') ?? '',
+      sortBy: (searchParams.get('sort') as SearchFilters['sortBy']) ?? 'popularity',
+    })
+  }, [searchParams])
 
   useEffect(() => {
     const params = new URLSearchParams()
@@ -56,19 +58,11 @@ export function SearchPage() {
   }
 
   const clearFilters = () => {
-    setQuery('')
     setFilters({ query: '', genre: '', year: '', rating: '', sortBy: 'popularity' })
   }
 
   return (
     <div className="space-y-5 px-4 py-5 sm:px-6">
-      <SearchBar
-        placeholder="Search by title, cast, or keyword"
-        defaultValue={query}
-        onChange={setQuery}
-        onSubmit={setQuery}
-      />
-
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-black tracking-[0px] text-ink sm:text-2xl">{resultTitle}</h1>

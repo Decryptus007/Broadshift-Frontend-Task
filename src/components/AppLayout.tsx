@@ -4,9 +4,9 @@ import { SearchBar } from './SearchBar'
 
 const navItems = [
   { label: 'Home', icon: Home, to: '/' },
-  { label: 'Popular', icon: Flame, to: '/search?sort=popularity' },
-  { label: 'Top Rated', icon: TrendingUp, to: '/search?sort=rating' },
-  { label: 'Upcoming', icon: Calendar, to: '/search?year=2024' },
+  { label: 'Popular', icon: Flame, to: '/popular' },
+  { label: 'Top Rated', icon: TrendingUp, to: '/top-rated' },
+  { label: 'Upcoming', icon: Calendar, to: '/upcoming' },
 ]
 
 const activeNavClass =
@@ -15,10 +15,12 @@ const activeNavClass =
 export function AppLayout() {
   const navigate = useNavigate()
   const location = useLocation()
+  const headerQuery =
+    location.pathname === '/search' ? new URLSearchParams(location.search).get('q') ?? '' : ''
 
   const isNavItemActive = (to: string) => {
     const target = new URL(to, window.location.origin)
-    return location.pathname === target.pathname && location.search === target.search
+    return location.pathname === target.pathname && (!target.search || location.search === target.search)
   }
 
   return (
@@ -57,6 +59,8 @@ export function AppLayout() {
           <div className="border-b border-line px-4 py-4 sm:px-6">
             <SearchBar
               placeholder="Search movies..."
+              defaultValue={headerQuery}
+              onFilterClick={() => navigate('/search')}
               onSubmit={(query) => navigate(`/search?q=${encodeURIComponent(query)}`)}
             />
           </div>
